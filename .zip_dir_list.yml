@@ -1,0 +1,14 @@
+# Directories and files packaged by zip_submission.py
+
+required_directories:
+  - proj3_code       # your code and the run notebook
+  - data             # the input images, including the ones you took
+  - results          # your saved measurements and output images
+
+required_files:
+  - README.md
+
+optional_directories:
+  - additional_data
+
+optional_files:
