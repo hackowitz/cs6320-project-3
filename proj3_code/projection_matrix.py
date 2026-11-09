@@ -96,6 +96,7 @@ def estimate_camera_matrix(pts2d: np.ndarray,
     print("Time since optimization start", time.time() - start_time)
     return np.reshape([*result.x, 1], (3, 4))
 
+
 def decompose_camera_matrix(P: np.ndarray) -> (np.ndarray, np.ndarray):
     '''
         Decomposes the camera matrix into the K intrinsic and R rotation matrix
@@ -110,16 +111,7 @@ def decompose_camera_matrix(P: np.ndarray) -> (np.ndarray, np.ndarray):
 
         hint: use scipy.linalg.rq()
     '''
-
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return K, R
+    return rq(P[:3, :3])
 
 def calculate_camera_center(P: np.ndarray,
                             K: np.ndarray,
