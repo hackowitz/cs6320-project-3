@@ -85,20 +85,16 @@ def estimate_camera_matrix(pts2d: np.ndarray,
               - kwargs -- dictionary with additional variables
                           for the objective function
     '''
-
     start_time = time.time()
-
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
+    result = least_squares(
+        objective_func,
+        x0=initial_guess.flatten()[:-1],
+        kwargs={"pts2d": pts2d, "pts3d": pts3d},
+        method="lm",
+    )
+    # Why add boilerplate for telemetry? Does `%%time` in ipynb not meet the need?
     print("Time since optimization start", time.time() - start_time)
-
-    return P
+    return np.reshape([*result.x, 1], (3, 4))
 
 def decompose_camera_matrix(P: np.ndarray) -> (np.ndarray, np.ndarray):
     '''
