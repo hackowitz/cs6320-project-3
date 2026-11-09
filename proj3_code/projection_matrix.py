@@ -23,16 +23,13 @@ def projection(P: np.ndarray, points_3d: np.ndarray) -> np.ndarray:
         Returns:
         - projected_points_2d : n x 2 array of points in non-homogenous image coordinates
     """
-
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return projected_points_2d
+    # make the coords homogeneous
+    n, s = points_3d.shape
+    if s < 4:
+        points_3d = np.append(points_3d, np.ones((n, 4 - s)), axis=-1)
+    # loop over projection matrix rows, _not_ the vector of points
+    parts = [(row * points_3d).sum(axis=-1) for row in P]
+    return np.stack([parts[0], parts[1]], axis=1) / parts[2][:, np.newaxis]
 
 
 def objective_func(x, **kwargs):
