@@ -32,7 +32,7 @@ def projection(P: np.ndarray, points_3d: np.ndarray) -> np.ndarray:
     return np.stack([parts[0], parts[1]], axis=1) / parts[2][:, np.newaxis]
 
 
-def objective_func(x, **kwargs):
+def objective_func(x, pts2d, pts3d):
     """
         Calculates the difference in image (pixel coordinates) and returns
         it as a 2*n_points vector
@@ -49,16 +49,7 @@ def objective_func(x, **kwargs):
                     and all the y coordinates)
 
     """
-
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return diff
+    return (pts2d - projection(np.reshape([*x, 1], (3, 4)), pts3d)).flatten()
 
 
 def estimate_camera_matrix(pts2d: np.ndarray,
