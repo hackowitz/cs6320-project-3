@@ -113,9 +113,11 @@ def decompose_camera_matrix(P: np.ndarray) -> (np.ndarray, np.ndarray):
     '''
     return rq(P[:3, :3])
 
-def calculate_camera_center(P: np.ndarray,
-                            K: np.ndarray,
-                            R: np.ndarray) -> np.ndarray:
+def calculate_camera_center(
+        P: np.ndarray,
+        K: np.ndarray=None,
+        R: np.ndarray=None,
+) -> np.ndarray:
     """
     Returns the camera center matrix for a given projection matrix.
 
@@ -126,13 +128,9 @@ def calculate_camera_center(P: np.ndarray,
     -   cc: A numpy array of shape (3,) representing the camera center
             location in world coordinates
     """
-
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return cc
+    if K is None or R is None:
+        K, R = decompose_camera_matrix(P)
+    # P = K @ [R | t] = [K @ R | K @ t]
+    # P @ [x, y, 1] = 0 at camera center
+    # so cc = [x, y, 1] = -(K @ R)^-1 @ t
+    return -np.linalg.inv(K @ R) @ P[:, -1]
