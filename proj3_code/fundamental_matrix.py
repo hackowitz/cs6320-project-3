@@ -3,6 +3,7 @@
 import math
 import numpy as np
 
+
 def point_line_distance(line, point):
     """Calculate the SIGNED line-to-point distance.
 
@@ -25,17 +26,8 @@ def point_line_distance(line, point):
 
     a, b, c = line
     u, v, w = point
-    error = 0
+    return (a*u + b*v + c*w) / np.sqrt(a**2 + b**2)
 
-    #######################################################################
-    # YOUR CODE HERE                                                      #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return error
 
 def signed_point_line_errors(x_0s, F, x_1s):
     """Calculate all signed line-to-point distances. Takes as input
@@ -66,17 +58,15 @@ def signed_point_line_errors(x_0s, F, x_1s):
     """
     assert F.shape == (3, 3)
     assert len(x_0s) == len(x_1s)
-    errors = []
+    return [
+        error 
+        for x0, x1 in zip (x_0s, x_1s)
+        for error in [
+            point_line_distance(F @ x1, x0),
+            point_line_distance(F.T @ x0, x1),
+        ]
+    ]
 
-    #######################################################################
-    # YOUR CODE HERE  |  Distance Computation                             #
-    #######################################################################
-
-    #######################################################################
-    #                           END OF YOUR CODE                          #
-    #######################################################################
-
-    return errors
 
 def skew(x, y, z):
     """Return the 3x3 skew-symmetric matrix for a vector (x, y, z)."""
