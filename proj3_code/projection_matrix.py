@@ -91,6 +91,7 @@ def estimate_camera_matrix(pts2d: np.ndarray,
         x0=initial_guess.flatten()[:-1],
         kwargs={"pts2d": pts2d, "pts3d": pts3d},
         method="lm",
+        verbose=2,
     )
     # Why add boilerplate for telemetry? Does `%%time` in ipynb not meet the need?
     print("Time since optimization start", time.time() - start_time)
